@@ -18,7 +18,7 @@ hexo server
 d.访问 [http://127.0.0.1:4000](http://127.0.0.1:4000)
 ###3.国内npm代理设置
 ```shell
-cd
+cd ~
 vi .npmrc
 ```
 .npmrc内容如下：
