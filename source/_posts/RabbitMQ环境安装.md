@@ -12,12 +12,23 @@ rpm -i rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
 yum update
 yum install -y erlang*
 ```
+或
+```shell
+wget -O /etc/yum.repos.d/epel-erlang.repo http://repos.fedorapeople.org/repos/peter/erlang/epel-erlang.repo
+yum install erlang
+```
 
 ####2.rabbitmq-server 的安装
 ```shell
 yum install -y librabbitmq-devel rabbitmq-server librabbitmq
 cd /usr/lib/rabbitmq/lib/rabbitmq_server-3.1.5/sbin/
+```
+插件安装：
+```shell
 ./rabbitmq-plugins enable rabbitmq_management
+```
+服务启动：
+```shell
 service rabbitmq-server start
 iptables -I INPUT -p tcp --dport 15672 -j ACCPT
 service iptables save
