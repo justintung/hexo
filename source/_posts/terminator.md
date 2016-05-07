@@ -2,6 +2,7 @@ title: Terminator
 date: 2016-05-7 12:20:36
 tags:
 - Terminator
+- Terminal
 - Linux
 ---
 1.说明
