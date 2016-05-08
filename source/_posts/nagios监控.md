@@ -126,18 +126,7 @@ server {
     }
 }
 ```
-####8.配置监听的客户端
-```shell
-vi /usr/local/nagios/etc/objects/commands.cfg
-```
-添加command nrpe
-```shell
-# 'check_nrpe ' command definition
-define command{
-	command_name check_nrpe
-    command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
-}
-```
+
 ####客户端
 安装基本类似于服务端
 1.NRPE(Nagios Remote Plugin Executor)
@@ -190,6 +179,50 @@ vi /usr/local/nagios/etc/cgi.cfg
 修改如下：
 ```shell
 use_authentication=0
+```
+####配置监听的客户端
+在服务端
+1.添加command nrpe
+```shell
+vi /usr/local/nagios/etc/objects/commands.cfg
+```
+```shell
+# 'check_nrpe ' command definition
+define command{
+	command_name check_nrpe
+    command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+```
+2.
+```shell
+cp /usr/local/nagios/etc/objects/localhost.cfg  /usr/local/nagios/etc/objects/192.168.56.110.cfg
+```
+修改文件中的IP配置为192.168.56.110，并注释掉hostgroup定义，在各个“check_command”内容前面添加“check_nrpe!”，如下：
+```shell
+#define hostgroup{  
+#        hostgroup_name  linux-servers  
+#        alias           Linux Servers  
+#        members         192.168.56.110  
+#}
+define service{
+    use local-service         ; Name of service template to use
+    host_name 192.168.56.110
+    service_description PING
+    check_command check_nrpe!check_ping!100.0,20%!500.0,60%
+}
+
+```
+3.
+```shell
+vi /usr/local/nagios/etc/nagios.cfg
+```
+添加一行
+```shell
+cfg_file=/usr/local/nagios/etc/objects/192.168.56.110.cfg
+```
+4.重启服务
+```shell
+/etc/init.d/nagios restart
 ```
 ####服务启动
 ```shell
