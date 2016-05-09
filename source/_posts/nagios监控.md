@@ -67,7 +67,13 @@ setenforce 0
 ```
 无需重启
 selinux防火墙会造成出现”unable to get process status“的错误
-####7.nginx配置
+####7.nagios登陆账号密码设置
+```shell
+/usr/local/apache/bin/htpasswd -nb justin 3344520 > /usr/local/nagios/etc/htpasswd.users
+chown nagios.nagios /usr/local/nagios/etc/htpasswd.users
+```
+未安装apache的，可以使用在线htpasswd生成工具，如(http://tool.oschina.net/htpasswd)[http://tool.oschina.net/htpasswd]
+####8.nginx配置
 #####a.cgi配置
 ```shell
 yum install -y fcgi fcgi-devel spawn-fcgi
@@ -107,7 +113,7 @@ server {
     }
     location /nagios {
         alias /usr/local/nagios/share;
-	}
+    }
     location /cgi-bin/images {
         alias /usr/local/nagios/share/images;
     }
@@ -119,6 +125,8 @@ server {
     }
     location ~ .*\.(cgi|pl)?$ {
     root       /usr/local/nagios/sbin;
+    auth_basic "Nagios Access";
+        auth_basic_user_file /usr/local/nagios/etc/htpasswd.users;
             rewrite   ^/nagios/cgi-bin/(.*)\.cgi /$1.cgi break;
     fastcgi_pass  127.0.0.1:8081;
     fastcgi_index index.cgi;
@@ -180,6 +188,7 @@ vi /usr/local/nagios/etc/cgi.cfg
 ```shell
 use_authentication=0
 ```
+去掉的话，会只能看，不能执行命令
 ####配置监听的客户端
 在服务端
 1.添加command nrpe
