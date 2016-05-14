@@ -74,6 +74,7 @@ chown nagios.nagios /usr/local/nagios/etc/htpasswd.users
 ```
 未安装apache的，可以使用在线htpasswd生成工具，如(http://tool.oschina.net/htpasswd)[http://tool.oschina.net/htpasswd]
 ####8.nginx配置
+nagios为cgi脚本，nginx默认不支持，需要另外配置
 #####a.cgi配置
 ```shell
 yum install -y fcgi fcgi-devel spawn-fcgi
@@ -126,8 +127,8 @@ server {
     location ~ .*\.(cgi|pl)?$ {
     root       /usr/local/nagios/sbin;
     auth_basic "Nagios Access";
-        auth_basic_user_file /usr/local/nagios/etc/htpasswd.users;
-            rewrite   ^/nagios/cgi-bin/(.*)\.cgi /$1.cgi break;
+    auth_basic_user_file /usr/local/nagios/etc/htpasswd.users;
+    rewrite   ^/nagios/cgi-bin/(.*)\.cgi /$1.cgi break;
     fastcgi_pass  127.0.0.1:8081;
     fastcgi_index index.cgi;
     include fastcgi.conf;
@@ -135,9 +136,10 @@ server {
 }
 ```
 
-####客户端
+####客户端（被监控服务器）
 安装基本类似于服务端
 1.NRPE(Nagios Remote Plugin Executor)
+监控服务器通过NRPE与被监控服务器通信
 +安装
 ```shell
 make install-plugin #客户端可以不安装
@@ -161,12 +163,11 @@ make install-daemon-config
 ```shell
 vi /usr/local/nagios/etc/nrpe.cfg
 ```
-服务端服务器设置
+服务端IP设置
 ```shell
 allowed_hosts=127.0.0.1,192.168.56.101
 ```
-添加完服务器端IP，需要在服务器端配置/usr/local/nagios/etc/objects/commands.cfg文件。
-添加command项,一个command项为一个监控内容，如：
+/usr/local/nagios/etc/nrpe.cfg文件中的的command项为，服务端可通过NRPE命令(服务端需要手动添加该命令的define,参考服务端配置)调用的监控命令(服务端没有nrpe.cfg文件)，如：
 a.监控交换分区的使用情况，使用超过20％时为警告状态，超过10％时为严重状态
 ```shell
 command[check_swap]=/usr/local/nagios/libexec/check_swap -w 20% -c 10%
@@ -180,17 +181,8 @@ command[check_disk_root]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /
 killall nrpe
 /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d
 ```
-c.关闭auth(可选)
-```shell
-vi /usr/local/nagios/etc/cgi.cfg
-```
-修改如下：
-```shell
-use_authentication=0
-```
-去掉的话，会只能看，不能执行命令
-####配置监听的客户端
-在服务端
+
+####服务端其他配置
 1.添加command nrpe
 ```shell
 vi /usr/local/nagios/etc/objects/commands.cfg
@@ -202,6 +194,7 @@ define command{
     command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
 }
 ```
+服务端使用check_nrpe命令,与客户端的nrpe demon通信，服务端check_nrpe可调用的命令,定义在客户端的nrpe.cfg文件中
 2.
 ```shell
 cp /usr/local/nagios/etc/objects/localhost.cfg  /usr/local/nagios/etc/objects/192.168.56.110.cfg
@@ -233,6 +226,30 @@ cfg_file=/usr/local/nagios/etc/objects/192.168.56.110.cfg
 ```shell
 /etc/init.d/nagios restart
 ```
+#### nagios auth用户设置
+1.服务端、客户端都开启
+/usr/local/nagios/etc/cgi.cfg
+```shell
+use_authentication=1
+```
+2.服务端cgi.cfg添加htpasswd生成的用户
+```shell
+default_user_name=justin
+authorized_for_system_information=nagiosadmin,justin
+authorized_for_configuration_information=nagiosadmin,justin
+authorized_for_system_commands=nagiosadmin,justin
+authorized_for_all_services=nagiosadmin,justin
+authorized_for_all_hosts=nagiosadmin,justin
+authorized_for_all_service_commands=nagiosadmin,justin
+authorized_for_all_host_commands=nagiosadmin,justin
+```
+即原来有nagiosadmin的后面追加用户名，default_user_name要设置，不然登陆web后看到的是空白
+3.重启nagios
+```shell
+service nagios restart
+```
+
+
 ####服务启动
 ```shell
 service spawn-fcgi start
