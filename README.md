@@ -13,6 +13,8 @@ c.运行代码
 ```shell
 cd hexo
 npm install
+npm install hexo-renderer-jade --save
+npm install hexo-renderer-sass --save
 hexo server
 ```
 d.访问 [http://127.0.0.1:4000](http://127.0.0.1:4000)
