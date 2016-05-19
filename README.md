@@ -11,8 +11,6 @@ git clone https://github.com/justintung/hexo.git
 ```
 c.运行代码
 ```shell
-npm install hexo-renderer-jade --save
-npm install hexo-renderer-sass --save
 cd hexo
 npm install
 hexo server
