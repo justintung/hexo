@@ -1,9 +1,9 @@
-title: shell  $相关
+title: shell特殊变量
 date: 2016-04-26 22:14:36
 tags:
 - shell
 ---
-1.$变量含义($0,$1,$2,$#,$@)
+1.`$`变量含义($0,$1,$2,$#,$@)
 #####以./xx.sh start 112 113为例
 
 $#------执行脚本时传递的参数个数（$#=3）
@@ -16,7 +16,7 @@ $$-------当前进程的pid
 $()与``-------命令替换(command subsititution)
 $(())-------数学运算（arithmetical operation）
 
-2.${}用法
+2.`${}`用法
 ##### 假设我们定义了一个变量为： 
 file=/dir1/dir2/dir3/my.file.txt 
 
@@ -40,14 +40,18 @@ ${file%%.*}：拿掉第一个 . 及其右边的字符串：/dir1/dir2/dir3/my
 **单一符号是最小匹配﹔两个符号是最大匹配。 **
 
 
+```shell
 ${file:0:5}：提取最左边的 5 个字节：/dir1 
 ${file:5:5}：提取第 5 个字节右边的连续 5 个字节：/dir2 
+```
 
 我们也可以对变量值里的字符串作替换： 
+```shell
 ${file/dir/path}：将第一个 dir 提换为 path：/path1/dir2/dir3/my.file.txt 
 ${file//dir/path}：将全部 dir 提换为 path：/path1/path2/path3/my.file.txt 
-
-利用 ${ } 还可针对不同的变量状态赋值(没设定、空值、非空值)：
+```
+利用 `${ }` 还可针对不同的变量状态赋值(没设定、空值、非空值)：
+```shell
 ${file-my.file.txt} ：假如 $file 为空值，则使用 my.file.txt 作默认值。(保留没设定及非空值) 
 ${file:-my.file.txt} ：假如 $file 没有设定或为空值，则使用 my.file.txt 作默认值。 (保留非空值) 
 
@@ -59,6 +63,9 @@ ${file:=my.file.txt} ：若 $file 没设定或为空值，则使用 my.file.txt 
 
 ${file?my.file.txt} ：若 $file 没设定，则将 my.file.txt 输出至 STDERR。 (保留空值及非空值)) 
 ${file:?my.file.txt} ：若 $file 没设定或为空值，则将 my.file.txt 输出至 STDERR。 (保留非空值) 
+```
+还有，${`#var`} 可计算出变量值的长度： 
+```shell
 
-还有，${#var} 可计算出变量值的长度： 
 ${#file} 可得到 27 ，因为 /dir1/dir2/dir3/my.file.txt 刚好是 27 个字节
+```
