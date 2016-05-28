@@ -5,7 +5,7 @@ tags:
 - PHP扩展
 - hash计算
 categories:
-- PHP扩展
+- PHP
 ---
 1.简介
 MurmurHash算法：高运算性能，低碰撞率的hash算法
