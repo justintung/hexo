@@ -4,6 +4,8 @@ date: 2016-05-28 01:02:52
 tags:
 - varnish
 - 安装
+categories:
+- 架构/软件
 ---
 ```shell
 yum install -y python-docutils pcre-devel readline readline-devel libtool

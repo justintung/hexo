@@ -4,6 +4,8 @@ tags:
 - nagios
 - 监控
 - event handler
+categories:
+- 架构/软件
 ---
 nagios的事件处理（Event Handlers）可以在监控的主机或服务的状态发生变化时触发脚本或系统命令来对故障进行处理，事件处理在告警发出前发生。
 事件处理会在下面情况下触发：

@@ -2,6 +2,8 @@ title: SVN
 date: 2016-05-7 12:20:36
 tags:
 - SVN
+categories:
+- 安装
 ---
 1.安装
 ```shell

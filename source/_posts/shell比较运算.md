@@ -2,6 +2,8 @@ title: shell 比较运算符
 date: 2016-04-26 22:14:36
 tags:
 - shell
+categories:
+- shell
 ---
 -e filename 	如果 filename存在，则为真 	[ -e /var/log/syslog ]
 -d filename 	如果 filename为目录，则为真 	[ -d /tmp/mydir ]

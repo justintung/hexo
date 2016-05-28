@@ -2,6 +2,8 @@ title: shell特殊变量
 date: 2016-04-26 22:14:36
 tags:
 - shell
+categories:
+- shell
 ---
 1.`$`变量含义($0,$1,$2,$#,$@)
 #####以./xx.sh start 112 113为例

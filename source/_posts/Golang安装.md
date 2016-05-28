@@ -3,6 +3,8 @@ date: 2016-04-23 14:30:17
 tags:
 - Golang
 - 安装
+categories:
+- 安装
 ---
 A. 下载源码
 ```

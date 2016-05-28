@@ -3,6 +3,8 @@ date: 2016-04-24 22:20:36
 tags:
 - proc
 - Linux
+categories:
+- Linux
 ---
 1./proc/loadavg 系统的负载信息
 数据如下：

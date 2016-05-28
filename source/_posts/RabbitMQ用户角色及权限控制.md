@@ -4,6 +4,8 @@ tags:
 - RabbitMQ用户角色
 - RabbitMQ
 - RabbitMQ权限控制
+categories:
+- 架构/软件
 ---
 ####1.用户角色
 ######A.RabbitMQ的用户角色分类：

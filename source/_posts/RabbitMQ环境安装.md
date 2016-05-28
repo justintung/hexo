@@ -3,6 +3,8 @@ date: 2016-05-2 23:44:36
 tags:
 - 安装
 - RabbitMQ
+categories:
+- 架构/软件
 ---
 ####1.erlang安装
 ```shell

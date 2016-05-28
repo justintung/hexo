@@ -4,6 +4,8 @@ tags:
 - 安装
 - RabbitMQ
 - php amqp使用
+categories:
+- 架构/软件
 ---
 ####1.producter.php
 ```php

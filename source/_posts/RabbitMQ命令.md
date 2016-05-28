@@ -3,6 +3,8 @@ date: 2016-05-7 23:30:36
 tags:
 - RabbitMQ命令
 - RabbitMQ
+categories:
+- 架构/软件
 ---
 ####为一个项目创建专门的vhost
 1.添加vhost

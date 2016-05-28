@@ -4,6 +4,8 @@ tags:
 - nagios
 - 监控
 - plugins
+categories:
+- 架构/软件
 ---
 官方网址：[https://exchange.nagios.org/directory/Plugins](https://exchange.nagios.org/directory/Plugins)
 1.check_website_content

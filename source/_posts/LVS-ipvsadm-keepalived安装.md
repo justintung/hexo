@@ -6,6 +6,8 @@ tags:
 - keepalived
 - 负载均衡
 - 服务器状态检测
+categories:
+- 架构/软件
 ---
 ![虚拟服务器结构示意图](http://justintung.github.com/images/2016.5.28.lvs1.png)
 

@@ -3,6 +3,8 @@ date: 2016-05-8 16:21:36
 tags:
 - nagios
 - 监控
+categories:
+- 架构/软件
 ---
 官方网址：[https://www.nagios.org/](https://www.nagios.org/)
 ####服务端

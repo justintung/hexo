@@ -4,6 +4,8 @@ tags:
 - Terminator
 - Terminal
 - Linux
+categories:
+- Linux
 ---
 1.说明
 网址：[https://launchpad.net/terminator/](https://launchpad.net/terminator/)

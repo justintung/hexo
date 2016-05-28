@@ -5,6 +5,8 @@ tags:
 - 安装
 - 性能监控
 - centos
+categories:
+- 安装
 ---
 ###1.centos安装相关软件包
 ```shell

@@ -4,6 +4,8 @@ date: 2016-05-21 10:36:14
 tags:
 - nginx
 - ssi
+categories:
+- Nginx
 ---
 ####1.相关指令
 ssi
