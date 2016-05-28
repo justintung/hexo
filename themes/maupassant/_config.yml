@@ -32,20 +32,7 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - recent_posts
   - recent_comments
   - links
-default_category: uncategorized
-category_map:
-    PHP: php
-    安装: install
-    配置: config
-    Nginx: nginx
-    Golang: go
-    Linux: linux
-    shell: shell
-    架构/软件: architecture
-    js: js
-    C/C++: c
-    生活: life
-    其他: other
+
 links:
   - title: knowstep
     url: http://www.knowstep.com/
