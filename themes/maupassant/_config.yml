@@ -34,6 +34,8 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
   - links
 
 links:
+  - title: github
+    url: https://github.com/justintung
   - title: knowstep
     url: http://www.knowstep.com/
   - title: 365coding
