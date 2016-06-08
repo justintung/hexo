@@ -71,7 +71,11 @@ REV="$2"
 BASEPATH=/www/web/test
 WEBPATH="$BASEPATH/"
 export LANG=zh_CN.UTF-8
-svn update $WEBPATH --username justin --password 3344520 --no-auth-cache
+
+for dir in `svnlook dirs-changed /www/svnrepos/test/`
+do
+    svn update -N $WEBPATH/$dir --username justin --password 3344520 --no-auth-cache
+done
 #mailer.py commit "$REPOS" "$REV" /path/to/mailer.conf
 ```
 重启服务
