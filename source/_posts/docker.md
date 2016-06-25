@@ -34,15 +34,20 @@ sudo docker pull million12/nginx-php:php-55
 ```
 ####3.运行容器
 ```shell
-#!/bin/bash 
+#!/bin/bash
+#公共容器
 sudo docker run -d -v /coding/docker:/data --name webdata busybox > /dev/null 2>&1
 sudo docker run -d -v /coding/docker/data/mysql:/var/lib/mysql -p 8306:3306 -e MYSQL_ROOT_PASSWORD=3344520 --name mysql mysql:5.7 > /dev/null 2>&1
 sudo docker run -d -v /coding/docker/data/mongo:/data/db -p 27017:27017 --name mongo  mongo:3.2 > /dev/null 2>&1
 sudo docker run -d -v /coding/docker/data/redis:/data -p 6379:6379 --name redis redis:3.2 redis-server --appendonly yes > /dev/null 2>&1
 sudo docker run -d -v /coding/docker/data/mongo:/data/db -p 27017:27017 --name mongo  mongo:3.2 > /dev/null 2>&1
 sudo docker run -d --hostname rabbitmq -p 15672:15672 -e RABBITMQ_DEFAULT_USER=justin -e RABBITMQ_DEFAULT_PASS=3344520 --name rabbitmq  rabbitmq:3.6-management > /dev/null 2>&1
+
+#项目容器
 sudo docker run -itd -v /coding:/coding --volumes-from=webdata -p 8081:80 --name test.itmotu.com million12/nginx-php:php-55
 ```
+将运行命令放入一个shell脚本中，方便启动
+
 ####4.docker 命令
 | 功能 | 命令 |
 |--------|--------|
