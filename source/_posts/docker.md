@@ -40,7 +40,6 @@ sudo docker run -d -v /coding/docker:/data --name webdata busybox > /dev/null 2>
 sudo docker run -d -v /coding/docker/data/mysql:/var/lib/mysql -p 8306:3306 -e MYSQL_ROOT_PASSWORD=3344520 --name mysql mysql:5.7 > /dev/null 2>&1
 sudo docker run -d -v /coding/docker/data/mongo:/data/db -p 27017:27017 --name mongo  mongo:3.2 > /dev/null 2>&1
 sudo docker run -d -v /coding/docker/data/redis:/data -p 6379:6379 --name redis redis:3.2 redis-server --appendonly yes > /dev/null 2>&1
-sudo docker run -d -v /coding/docker/data/mongo:/data/db -p 27017:27017 --name mongo  mongo:3.2 > /dev/null 2>&1
 sudo docker run -d --hostname rabbitmq -p 15672:15672 -e RABBITMQ_DEFAULT_USER=justin -e RABBITMQ_DEFAULT_PASS=3344520 --name rabbitmq  rabbitmq:3.6-management > /dev/null 2>&1
 
 #项目容器
