@@ -15,7 +15,7 @@ mkdir -p /www/svnrepos
 ```
 3.配置各个仓库共用的passwd
 ```shell
-vi /ww/svnrepos/passwd
+vi /www/svnrepos/passwd
 
 #内容如下
 justin=3344520

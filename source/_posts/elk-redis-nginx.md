@@ -84,6 +84,7 @@ output {
     	key=>"logstash:redis"
     }
 }
+```
 ####5.logstath indexer
 负责将redis中的日志写入elasticsearch
 ```shell
