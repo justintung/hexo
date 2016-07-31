@@ -41,6 +41,8 @@ sudo yum localinstall kapacitor-0.13.1.x86_64.rpm
 ```shell
 telegraf -sample-config -input-filter cpu:mem -output-filter influxdb > /etc/telegraf/telegraf.conf
 ```
+在/etc/telegraf/telegraf.conf中可以指定influxdb的IP
+
 命令收集cpu、mem数据到influxdb，input、output 以插件的方式存在，[input插件地址](https://docs.influxdata.com/telegraf/v0.13/inputs/)、[output插件地址](https://docs.influxdata.com/telegraf/v0.13/outputs/)
 2.查看influxdb中收集的数据，InfluxQL
 ```shell
@@ -62,8 +64,17 @@ SELECT usage_idle FROM cpu WHERE cpu = 'cpu-total' LIMIT 5
 ```
 查询数据
 [influxdb的数据库操作](https://docs.influxdata.com/influxdb/v0.13/introduction/getting_started/)
+```shell
+iptables -I INPUT -s 192.168.56.0/24 -p tcp --dport 8086 -j ACCEPT
+service iptables save
+service iptables restart
+
+#curl查询
+curl -G 'http://192.168.56.102:8086/query?db=telegraf' --data-urlencode 'q=SELECT count(usage_idle) FROM cpu'
+```
 3.chronograf
 ```shell
+chkconfig --level 2345 chronograf on
 service chronograf start
 
 #修改chronograf绑定的ip:端口
