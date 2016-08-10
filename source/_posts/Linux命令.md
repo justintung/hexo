@@ -60,3 +60,9 @@ shutdown -h now
 ```shell
 shutdown +5 "System will shutdown after 5 minutes"
 ```
+5.批量kill掉进程
+```shell
+ps aux|grep nginx|awk '{print $2}'|xargs kill -9
+```
+命令批量kill掉含有nginx字符的进程
+ps后面的aux不要加`-`，不然会提示错误
