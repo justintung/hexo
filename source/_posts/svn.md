@@ -52,7 +52,7 @@ dongdong=rw
 ```shell
 /usr/bin/svnserve -d -r /www/svnrepos
 ```
-或修改`/etc/init.d/srnserve`文件，如下：
+或修改`/etc/init.d/svnserve`文件，如下：
 ```shell
 #args="--daemon --pid-file=${pidfile} $OPTIONS"
 args="--daemon --pid-file=${pidfile} -r /www/svnrepos/"
