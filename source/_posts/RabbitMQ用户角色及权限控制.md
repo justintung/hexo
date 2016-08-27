@@ -7,11 +7,11 @@ tags:
 categories:
 - 架构/软件
 ---
-####1.用户角色
-######A.RabbitMQ的用户角色分类：
+##1.用户角色
+####A.RabbitMQ的用户角色分类：
 none、management、policymaker、monitoring、administrator
 
-######B.RabbitMQ各类角色描述：
+####B.RabbitMQ各类角色描述：
 none
 不能访问 management plugin
 
@@ -40,39 +40,25 @@ policymaker和monitoring可以做的任何事，外加:
 查看创建和删除permissions
 关闭其他用户的connections
 
-######C.创建用户并设置角色：
-a.可以创建管理员用户，负责整个MQ的运维，例如：
+####C.创建用户并设置角色：
 ```shell
+#eg.1
 rabbitmqctl add_user  username_admin  password
-```
-赋予其administrator角色：
-```shell
 rabbitmqctl set_user_tags username_admin administrator
-```
 
-b.可以创建RabbitMQ监控用户，负责整个MQ的监控，例如：
-```shell
+#eg.2
 rabbitmqctl add_user  username_monitoring  password
-```
-赋予其monitoring角色：
-```shell
 rabbitmqctl set_user_tags username_monitoring monitoring
-```
 
-c.可以创建某个项目的专用用户，只能访问项目自己的virtual hosts
-```shell
+#eg.3
 rabbitmqctl  add_user  username_proj  password
-```
-赋予其management角色：
-```shell
 rabbitmqctl set_user_tags username_proj management
 ```
-
-d.创建和赋角色完成后查看并确认：
+创建和赋角色完成后查看并确认：
 ```shell
 rabbitmqctl list_users
 ```
-####2.RabbitMQ 权限控制
+##2.RabbitMQ 权限控制
 默认virtual host："/"
 默认用户：guest 
 guest具有"/"上的全部权限，仅能有localhost访问RabbitMQ包括Plugin，建议删除或更改密码。可通过将配置文件中loopback_users置空来取消其本地访问的限制：
@@ -86,8 +72,10 @@ queue的bind与unbind需要queue写权限exchange的读权限
 获取或清除(get、consume、purge)消息需queue的读权限
 
 对何种资源具有配置、写、读的权限通过正则表达式来匹配，具体命令如下：
+```shell
 set_permissions [-p <vhostpath>] <user> <conf> <write> <read>
-其中，<conf> <write> <read>的位置分别用正则表达式来匹配特定的资源，如'^(amq\.gen.*|amq\.default)$'可以匹配server生成的和默认的exchange，'^$'不匹配任何资源
+```
+其中，conf、write、read的位置分别用正则表达式来匹配特定的资源，如'\^(amq\.gen.*|amq\.default)$'可以匹配server生成的和默认的exchange，'\^$'不匹配任何资源
 
 需要注意的是RabbitMQ会缓存每个connection或channel的权限验证结果、因此权限发生变化后需要重连才能生效。
 
