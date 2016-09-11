@@ -54,3 +54,13 @@ ssh nagios@192.168.56.110
 
 Last login: Sat Nov 29 22:35:27 2008 from 192.168.56.101
 ```
+
+e.实现对本机的无密码访问
+如，在192.168.56.110上访问localhost
+```shell
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+
+ssh localhost
+```

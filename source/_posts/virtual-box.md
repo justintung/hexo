@@ -70,3 +70,6 @@ mount -t vboxsf vhosts /mnt/vhosts
 
 将mount命令加入/etc/rc.d/rc.local，实现自动挂载
 web,vhosts的应该与挂载文件夹时取的名称一致
+```shell
+chmod a+x /etc/rc.d/rc.local
+```
