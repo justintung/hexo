@@ -122,7 +122,12 @@ vi conf/hbase-site.xml
 <configuration>
   <property>
     <name>hbase.rootdir</name>
-    <value>file:///tmp/hbase-${user.name}</value>
+    <!--<value>file:///tmp/hbase-${user.name}</value>-->
+    <value>hdfs://localhost:9001/hbase</value>
+  </property>
+  <property>
+    <name>hbase.master.info.port</name>
+    <value>60010</value>
   </property>
 </configuration>
 ```
@@ -139,3 +144,6 @@ exit
 ```shell
 ./bin/stop-hbase.sh
 ```
+3.hbase web界面
+http://192.168.56.110:60010/
+
