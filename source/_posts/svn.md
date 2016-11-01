@@ -86,3 +86,17 @@ service svnserve restart
 killall svnserve
 /usr/bin/svnserve -d -r /www/svnrepos
 ```
+8.提交时强制输入注释
+```shell
+REPOS="$1"
+TXN="$2"
+
+SVNLOOK=/usr/bin/svnlook
+LOGMSG=$($SVNLOOK log -t "$TXN" "$REPOS" | grep "[a-zA-Z0-9]" | wc -c)
+if [ "$LOGMSG" -lt 2 ]; then
+    echo -e "\n 提交文件时必须添加注释，提交中止." 1>&2
+    exit 1
+fi
+
+exit 0
+```
