@@ -20,6 +20,25 @@ sudo docker pull php:7.0-fpm
 sudo docker pull php:5.6-fpm
 sudo docker pull nginx:1.11
 ```
+2.给php镜像安装扩展,安装gd库，yii2需要使用
+Dockerfile文件
+```shell
+FROM php:7.0-fpm
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng12-dev \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
+```
+编译，进入Dockerfile文件保存目录
+```shell
+docker build -t local-php:7.0-fpm .
+```
+同样的方式可以穿件local-php:5.6-fpm
+
 2.运行镜像，写入一个文件中service.sh
 ```shell
 #!/bin/bash 
@@ -35,9 +54,9 @@ sudo docker run -d --name memcached memcached:1.4 > /dev/null 2>&1
 #rabbitmq
 sudo docker run -d --hostname rabbitmq -p 15672:15672 -e RABBITMQ_DEFAULT_USER=justin -e RABBITMQ_DEFAULT_PASS=3344520 --name rabbitmq  rabbitmq:3.6-management > /dev/null 2>&1
 #php7.0
-sudo docker run -d -v /data/docker/codes/php:/var/www/html -p 9000:9000 --name php70 php:7.0-fpm > /dev/null 2>&1
+sudo docker run -d -v /data/docker/codes/php:/var/www/html -p 9000:9000 --name php70 local-php:7.0-fpm > /dev/null 2>&1
 #php5.6
-sudo docker run -d -v /data/docker/codes/php:/var/www/html -p 9001:9000 --name php56 php:5.6-fpm > /dev/null 2>&1
+sudo docker run -d -v /data/docker/codes/php:/var/www/html -p 9001:9000 --name php56 local-php:5.6-fpm > /dev/null 2>&1
 #nginx
 sudo docker run -d -v /data/docker/codes/php:/usr/share/nginx/html -v /data/docker/conf/nginx/nginx.conf:/etc/nginx/nginx.conf --link php70:php70 --link php56:php56 --link memcached:memcached --link mysql:mysql --link mongo:mongo --link redis:redis --link rabbitmq:rabbitmq -p 80:80 --name nginx nginx:1.11
 ```
