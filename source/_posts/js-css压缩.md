@@ -71,3 +71,10 @@ do
 done
 
 ```
+3.inotify如果监听的东西过得，需要修改一些系统参数
+编辑文件 /etc/sysctl.conf ，追加或修改，值按需要修改
+```shell
+fs.inotify.max_user_watches=99999999
+fs.inotify.max_queued_events=99999999
+fs.inotify.max_user_instances=2048
+```
