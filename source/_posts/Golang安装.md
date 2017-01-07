@@ -48,4 +48,6 @@ export PATH=$PATH:$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$GOBIN:$GOTOOLS:$GOROOT/bin
 执行：
 source /etc/profile  
 建议添加在 /etc/rc.d/rc.local
+对于linux mint系统，可以添加一个文件 /etc/profile.d/environment.sh
+内容如上即可
 

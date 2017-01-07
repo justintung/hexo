@@ -66,3 +66,39 @@ ps aux|grep nginx|awk '{print $2}'|xargs kill -9
 ```
 命令批量kill掉含有nginx字符的进程
 ps后面的aux不要加`-`，不然会提示错误
+另外应该排除命令本身，所以shell最好如下
+```shell
+ps aux|grep nginx|grep -v grep|awk '{print $2}'|xargs kill -9
+```
+6.dig命令
+命令用于查询域名的解析情况
+```shell
+dig www.365coding.com
+```
+显示出路由轨迹
+```shell
+dig www.365coding.com +trace
+```
+查询域名在指定DNS下的解析情况：
+```shell
+dig www.365coding.com @114.114.114.114
+```
+windows下类似的命令为，
+```shell
+nslookup -qt=A www.365coding.com 114.114.114.114
+```
+7.清除dns缓存
+```shell
+aptitude install nscd
+service nscd restart
+```
+windows下类似命令为
+```shell
+ipconfig /flushdns
+```
+8.htop
+命令类似于top，但更加丰富
+```shell
+yum install -y htop
+htop
+```

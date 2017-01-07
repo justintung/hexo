@@ -11,8 +11,8 @@ Linux对于每个用户，系统限制其最大进程数。为提高性能，可
 
 修改/etc/security/limits.conf文件。
 ```shell
-*        soft    noproc 10240
-*        hard    noproc 10240
+*        soft    nproc 10240
+*        hard    nproc 10240
 *        soft    nofile 10240
 *        hard    nofile 10240
 ```
