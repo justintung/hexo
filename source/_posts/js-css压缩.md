@@ -14,14 +14,14 @@ uglifyjs 只能压缩js,地址: [https://github.com/mishoo/UglifyJS/](https://gi
 ```shell
 #!/bin/bash 
 #程序实现uploads目录的监听，并将文件上传到bos
-#执行./uploads-baiduyun.sh &
+#执行./uploads-bos.sh &
 #要求：必须安装inotify
 #yum install -y inotify-tools
 minExt=("js" "css")
-excludeExt=("yuicompressor" "html" "htm")
+excludeExt=("bak")
 #监听目录
-uploadsDir="/home/wwwroot/js.knowstep.com/branches"
-bos="18183-js"
+uploadsDir="/home/wwwroot/www.365coding.com/branches"
+bos="365coding-js"
 /usr/bin/inotifywait --exclude '(\.svn|\.tmp)' -mrq --timefmt '%d/%m/%y %H:%M' --format '%T %w%f %e' --event modify,attrib,moved_to,create,delete $uploadsDir |  while read  date time file event
 do
     case $event in
@@ -29,27 +29,29 @@ do
                     #排除临时文件
                     ext=${file##*.}
                     ext=$(echo $ext | tr '[A-Z]' '[a-z]')
+                    path=${file%/*}
+
                     if [[ "${excludeExt[@]}" =~ $ext ]];then
                         continue
                     fi
-                    if [[ "$file" =~ ".yuicompressor." ]];then
-                        continue
-                    fi
                     if [[ "${minExt[@]}" =~ $ext ]];then
+                        mkdir -p "/tmp/svn/${path}"
                         #压缩
-                        #uglifyjs "${file}" -o "${file}.yuicompressor"
-                        java -jar /usr/bin/yuicompressor-2.4.8.jar --type "${ext}" "${file}" > "${file}.yuicompressor.${ext}"
-
+                        if [ "$ext" = "css" ];then
+                            /usr/bin/css-compress "${file}" "/tmp/svn/${file}"
+                        else
+                            uglifyjs "${file}" -o "/tmp/svn/${file}"
+                            #java -jar /usr/bin/yuicompressor-2.4.8.jar --type "${ext}" "${file}" > "/tmp/svn/${file}"
+                        fi
                         #上传到bos
                         dest=${file/#$uploadsDir\//}
-                        bce bos cp "${file}.yuicompressor.${ext}" "bos:/${bos}/${dest}" > /dev/null 2>&1
-                        rm -rf "${file}.yuicompressor.${ext}"
-                        #echo "crete,move${event} >>> ${file} >>> ${dest}"
+                        bce bos cp "/tmp/svn/${file}" "bos:/${bos}/${dest}" & 
+                        usleep 1000
                     else
                         dest=${file/#$uploadsDir\//}
                         #上传到bos
-                        bce bos cp "${file}" "bos:/${bos}/${dest}" > /dev/null 2>&1
-                        #echo "crete,move${event} >>> ${file} >>> ${dest}"
+                        bce bos cp "${file}" "bos:/${bos}/${dest}" & 
+                        usleep 1000
                     fi
             ;;
 		  DELETE)
@@ -59,16 +61,14 @@ do
                     if [[ "${excludeExt[@]}" =~ $ext ]];then
                         continue
                     fi
-                    if [[ "$file" =~ ".yuicompressor." ]];then
-                        continue
-                    fi
                     #从bos删除
                     dest=${file/#$uploadsDir\//}
-                    bce bos rm --yes "bos:/${bos}/${dest}"
-                    #echo "rm ${event} >>> ${file} >>> ${dest}"
+                    bce bos rm --yes "bos:/${bos}/${dest}" &
+                    usleep 1000
             ;;	
       esac
 done
+
 
 ```
 3.inotify如果监听的东西过得，需要修改一些系统参数
