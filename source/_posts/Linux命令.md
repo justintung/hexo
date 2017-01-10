@@ -73,6 +73,8 @@ ps aux|grep nginx|grep -v grep|awk '{print $2}'|xargs kill -9
 6.dig命令
 命令用于查询域名的解析情况
 ```shell
+yum install -y bind-utils
+
 dig www.365coding.com
 ```
 显示出路由轨迹
