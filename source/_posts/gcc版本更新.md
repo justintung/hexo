@@ -22,3 +22,11 @@ yum install gcc
 gcc -v
 ```
 
+上面的gcc版本只到4.7, 4.8可以用下面的方式
+```
+yum install centos-release-scl
+yum-config-manager --enable rhel-server-rhscl-7-rpms
+yum install devtoolset-2-gcc  devtoolset-2-gcc-c++
+
+source /opt/rh/devtoolset-2/enable
+```
