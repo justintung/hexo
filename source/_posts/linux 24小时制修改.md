@@ -16,3 +16,9 @@ tzselect
 rm /etc/localtime
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ```
+3.更新
+```shell```
+yum install -y ntp
+//同步时间且写入硬件
+ntpdate time.windows.com && hwclock -w
+```
