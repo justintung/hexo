@@ -104,3 +104,11 @@ ipconfig /flushdns
 yum install -y htop
 htop
 ```
+9.查看进程相关信息
+```
+ps -aux
+```
+```
+#进程树信息
+pstree -aup
+```
