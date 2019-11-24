@@ -5,7 +5,8 @@ tags:
 categories:
 - 安装
 ---
-1.安装
+一、安装kubectl、kubelet、kubeadm
+
 ```shell
 $ apt-get update && apt-get install -y apt-transport-https
 $ curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add - 
@@ -18,12 +19,63 @@ $ apt-get install -y kubelet kubeadm kubectl
 $ apt-get install kubeadm=1.10.2-00 kubectl=1.10.2-00 kubelet=1.10.2-00
 ```
 
-2.安装minikubi
+二、minikube k8s单机测试
+
+1.安装minikubi
 
 ```shell
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
   && chmod +x minikube
 sudo mkdir -p /usr/local/bin/
 sudo install minikube /usr/local/bin/  
+```
+
+2.minikube 使用
+
+创建 minikube.sh,创建minikube cluster
+
+```shell
+#!/bin/bash
+sudo minikube start --vm-driver=none --registry-mirror=https://registry.docker-cn.com --registry-mirror=https://8eoqixdq.mirror.aliyuncs.com --registry-mirror=https://dockerhub.azk8s.cn --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers  --memory=4096
+```
+
+3.创建deployment
+
+```shell
+kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+```
+
+4.创建services
+
+```shell
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+#查看pod状态
+kubectl get pod
+#查看service信息
+minikube service hello-minikube --url
+```
+
+5.删除service
+
+```shell
+kubectl delete service hello-minikube
+```
+
+6.删除deployment
+
+```shell
+kubectl delete deployment hello-minikube
+```
+
+7.关闭minikube cluster
+
+```shell
+minikube stop
+```
+
+8.删除minikube cluster
+
+```shell
+minikube delete
 ```
 
