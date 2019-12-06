@@ -5,7 +5,7 @@ tags:
 categories:
 - 安装
 ---
-一、安装kubectl、kubelet、kubeadm
+一、debian安装kubectl、kubelet、kubeadm
 
 ```shell
 $ apt-get update && apt-get install -y apt-transport-https
@@ -18,6 +18,24 @@ $ apt-get install -y kubelet kubeadm kubectl
 # 安装指定版本：
 $ apt-get install kubeadm=1.10.2-00 kubectl=1.10.2-00 kubelet=1.10.2-00
 ```
+
+centos安装kubectl、kubelet、kubeadm
+
+```shell
+$cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg
+EOF
+$yum install -y kubelet kubeadm kubectl
+$systemctl enable kubelet && systemctl start kubelet
+```
+
+
 
 二、minikube k8s单机测试
 
